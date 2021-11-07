@@ -1,0 +1,40 @@
+#name {
+    text-align: center;
+}
+
+#licences {
+    width: 80vw;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+#body {
+    line-height: 25px;
+    font-size: 20px;
+}
+
+#summary {
+    display: flex;
+    justify-content: space-between;
+}
+
+h3 {
+    visibility: hidden;
+}
+
+li {
+    text-transform: capitalize;
+}
+
+#permissions {
+    list-style-type: "✅";
+}
+
+#conditions {
+    list-style-type: "❕";
+}
+
+#limitations {
+    list-style-type: "🚫";
+}

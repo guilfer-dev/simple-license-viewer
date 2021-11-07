@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <title>Github Licences API</title>
+</head>
+
+<body>
+    <label for="choose-licence"> Select the licence: </label>
+    <select name="choose-licence" id="choose-licence">
+        <option value=""></option>
+    </select>
+
+    <h1 id="name"></h1>
+    <main id="licences">
+        <section id="summary">
+            <div>
+                <h3>Permissions</h3>
+                <ul id="permissions"></ul>
+            </div>
+            <div>
+                <h3>Conditions</h3>
+                <ul id="conditions"></ul>
+            </div>
+            <div>
+                <h3>Limitations</h3>
+                <ul id="limitations"></ul>
+            </div>
+        </section>
+        <section>
+            <p id="body"></p>
+        </section>
+
+    </main>
+
+    <script>
+
+        const licence = 'mit';
+
+        const options = document.getElementById('choose-licence');
+
+        options.addEventListener('change', loadLicence);
+
+        function getLicences() {
+            fetch(`https://api.github.com/licenses`, { method: 'GET' })
+                .then(response => {
+                    return response.json();
+                })
+                .then(function (data) {
+                    appendLicences(data);
+                })
+                .catch(function (err) {
+                    console.log(err);
+
+                })
+        }
+
+        function appendLicences(data) {
+
+            for (let i = 0; i < data.length; i++) {
+                const opt = document.createElement("option");
+                opt.value = data[i].key;
+                opt.innerHTML = data[i].name;
+                options.appendChild(opt);
+            }
+        }
+
+        function loadLicence(e) {
+
+            const licence = e.target.value;
+
+            document.querySelectorAll('li').forEach(e => e.remove());
+
+            document.querySelectorAll('h3').forEach(e => e.style.visibility = 'visible')
+
+            fetch(`https://api.github.com/licenses/${licence}`, { method: 'GET' })
+                .then(response => {
+                    return response.json();
+                })
+                .then(function (data) {
+                    appendLicenceData(data);
+                })
+                .catch(function (err) {
+                    console.log(err);
+
+                })
+        }
+
+        function appendLicenceData(data) {
+
+            const name = document.getElementById("name");
+            name.innerHTML = data.name;
+
+            const body = document.getElementById("body");
+            body.innerHTML = data.body;
+
+
+            const permissions = document.getElementById("permissions");
+            const conditions = document.getElementById("conditions");
+            const limitations = document.getElementById("limitations");
+
+
+
+            data.permissions.forEach(e => {
+                const li = document.createElement('li');
+                li.innerHTML = e;
+                permissions.append(li);
+            });
+
+
+            data.conditions.forEach(e => {
+                const li = document.createElement('li');
+                li.innerHTML = e;
+                conditions.append(li);
+            });
+
+
+            data.limitations.forEach(e => {
+                const li = document.createElement('li');
+                li.innerHTML = e;
+                limitations.append(li)
+            });
+
+        }
+
+        getLicences();
+
+    </script>
+
+
+
+</body>
+
+</html>
