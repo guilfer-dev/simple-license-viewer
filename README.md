@@ -1,6 +1,6 @@
-# Simple Licence Viewer
+# Simple License Viewer
 
-A simple web-page that fetchs the Github API and display the information about a selected licence.
+A simple web-page that fetchs the Github API and display the information about a selected license.
 
 <img src='./Licence Fetch Example.png'>
 
